@@ -23,6 +23,7 @@ providers:
           scope: Project
           renderingOptions:
             selectionAccessor: "STORAGE_PATH"
+            valueConversion: "STORAGE_PATH_AUTOMATIC_READ"
             storage-path-root: "keys"
             storage-file-meta-filter: "Rundeck-key-type=private"
             instance-scope-node-attribute: "private-key-storage-path"

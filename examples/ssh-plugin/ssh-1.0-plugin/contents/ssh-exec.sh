@@ -16,6 +16,7 @@
 # RD_NODE_SSH_TEST: if "ssh-test" attribute is set to "true" then do
 #   a dry run of the ssh command
 #####
+echo "v1.0"
 export
 
 USER=$1
@@ -23,6 +24,10 @@ shift
 HOST=$1
 shift
 CMD=$*
+
+# get the private key in temp file
+TMP_PRIVATE=`mktemp`
+echo $RD_CONFIG_PRIVATEKEY > $TMP_PRIVATE
 
 # use RD env variable from node attributes for ssh-port value, default to 22:
 PORT=${RD_NODE_SSH_PORT:-22}
@@ -35,7 +40,7 @@ if [ ! -z $XHOST ] ; then
     HOST=$XHOST
 fi
 
-SSHOPTS="-p $PORT -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=quiet"
+SSHOPTS="-p $PORT -i $TMP_PRIVATE -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=quiet"
 
 #use ssh-keyfile node attribute from env vars
 if [ ! -z "$RD_NODE_SSH_KEYFILE" ] ; then
@@ -58,3 +63,6 @@ fi
 
 #finally, use exec to pass along exit code of the SSH command
 exec $RUNSSH
+
+# final cleanup
+rm $TMP_PRIVATE
