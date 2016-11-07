@@ -14,7 +14,19 @@ providers:
       script-interpreter: /bin/bash
       script-file: ssh-exec.sh
       script-args: ${node.username} ${node.hostname} ${exec.command}
-    - name: scp-example
+      config:
+        - name: privateKey
+          title: Private Key
+          type: String
+          required: true
+          description: "Private key to use"
+          scope: Project
+          renderingOptions:
+            selectionAccessor: "STORAGE_PATH"
+            storage-path-root: "keys"
+            storage-file-meta-filter: "Rundeck-key-type=private"
+            instance-scope-node-attribute: "private-key-storage-path"
+    - name: scp-plugin
       service: FileCopier
       title: System SCP
       description: Copies the file by calling the system SCP binary

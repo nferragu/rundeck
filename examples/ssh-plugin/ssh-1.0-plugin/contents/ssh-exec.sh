@@ -16,6 +16,7 @@
 # RD_NODE_SSH_TEST: if "ssh-test" attribute is set to "true" then do
 #   a dry run of the ssh command
 #####
+export
 
 USER=$1
 shift
