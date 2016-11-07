@@ -1,5 +1,5 @@
 # makefile
-pluginname=ssh-example-1.0-plugin
+pluginname=ssh-1.0-plugin
 pluginfile=$(pluginname).zip
 FILES=$(shell find $(pluginname))
 
