@@ -1,0 +1,30 @@
+# plugin metadata for ssh-example plugin
+
+name: pywinrm
+rundeckPluginVersion: 1.0
+author: Nicolas Ferragu
+date: 16/12/2016
+version: 1.0
+providers:
+    - name: pywinrm
+      service: NodeExecutor
+      title: pywinrm
+      description: Executes the command by calling pywinrm
+      plugin-type: script
+      script-interpreter: /bin/python
+      script-file: exec-pywinrm.py
+      script-args: ${node.username} ${node.hostname} ${exec.command}
+      config:
+        - name: password
+          title: Password
+          type: String
+          required: true
+          description: "Password key to use"
+          scope: Project
+          renderingOptions:
+            displayType: "PASSWORD"
+            selectionAccessor: "STORAGE_PATH"
+            valueConversion: "STORAGE_PATH_AUTOMATIC_READ"
+            storage-path-root: "keys"
+            storage-file-meta-filter: "Rundeck-key-type=password"
+            instance-scope-node-attribute: "password-key-storage-path"
