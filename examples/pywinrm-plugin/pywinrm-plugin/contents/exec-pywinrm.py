@@ -1,19 +1,27 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 import sys
 import os
-import pywinrm
+import winrm
 import pprint
 
-pprint.pprint (os.environ)
+if os.environ['RD_JOB_LOGLEVEL']=='DEBUG':
+	for i in os.environ.keys():
+		print (i+" : "+os.environ[i])
 
 if len(sys.argv)==4:
-	(a,host,user,pass,command)=sys.argv
+	(a,host,user,command)=sys.argv
 else:
 	print ('Args : hostname username password command')
 	exit(1)
 
 try:
-	s=winrm.Session(host,auth=(user,pass))
+	passwd=os.environ['RD_CONFIG_PASSWORD']
+	if os.environ['RD_JOB_LOGLEVEL']=='DEBUG':
+		print ("Host :"+host)
+		print ("user :"+user)
+		print ("pass :"+passwd)
+		print ("cmnd :"+command)
+	s=winrm.Session(host,auth=(user,passwd))
 	r=s.run_cmd(command)
 	print (r.std_out)
 except:
